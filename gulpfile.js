@@ -128,9 +128,6 @@ var tasks = {
       debug: !production,
       cache: {}
     })
-    // determine if we're doing a build
-    // and if so, bypass the livereload
-    // REMOVE var build = argv._.length ? argv._[0] === 'build' : false;
     if (watch) {
       bundler = watchify(bundler)
     }
@@ -238,7 +235,7 @@ gulp.task('watch', ['assets', 'templates', 'sass', 'browserify', 'browser-sync']
   // --------------------------
   // watch:html
   // --------------------------
-  gulp.watch('./templates/**/*.html', ['reload-templates'])
+  gulp.watch('./**/*.html', ['reload-templates'])
 
   gutil.log(gutil.colors.bgGreen('Watching for changes...'))
 })
