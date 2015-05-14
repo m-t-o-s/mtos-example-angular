@@ -1,6 +1,6 @@
 'use strict'
 
-var welcome = function ($scope, webtorrentFactory, version) {
+var debug = function ($scope, webtorrentFactory, version) {
 
   var self = this
 
@@ -20,4 +20,4 @@ var welcome = function ($scope, webtorrentFactory, version) {
 
 }
 
-module.exports = welcome
+module.exports = debug
