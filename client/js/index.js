@@ -9,7 +9,7 @@ angular.module('mtos', [
 
 .constant('version', require('../../package.json').version)
 
-.controller('DebugController', require('./welcome/welcome.controller'))
+.controller('DebugController', require('./debug/debug.controller'))
 
 .config(function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/debug')
@@ -17,6 +17,7 @@ angular.module('mtos', [
   .state('debug', {
     url: '/debug',
     controller: 'DebugController',
-    templateUrl: 'js/welcome/welcome.template.html'
+    controllerAs: 'debug',
+    templateUrl: 'js/debug/debug.template.html'
   })
 })

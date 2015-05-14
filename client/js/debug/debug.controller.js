@@ -2,7 +2,7 @@
 
 var welcome = function ($scope, webtorrentFactory, version) {
 
-  var self = $scope
+  var self = this
 
   self.data = 'here\'s teh data'
   self.webTorrent = webtorrentFactory
