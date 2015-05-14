@@ -4,8 +4,19 @@ var welcome = function ($scope, webtorrentFactory, version) {
 
   var self = $scope
 
-  self.testVar = 'We are up and running from a required module in version '+version+'.'
+  self.data = 'here\'s teh data'
   self.webTorrent = webtorrentFactory
+
+  self.save = function () {
+    return self.webTorrent.createTextFile(self.data)
+    .then(function (torrent) {
+      self.webTorrent.readTextFile(torrent)
+      .then(function (text) {
+        console.log(text)
+      })
+      return torrent
+    })
+  }
 
 }
 
