@@ -1,0 +1,14 @@
+<form>
+  <textarea ng-model="data"></textarea>
+  <button ng-click="save()">save</button>
+</form>
+<ul>
+  <li ng-repeat="torrent in webTorrent.client.torrents">
+    <p>{{torrent.name}}</p>
+    <ul>
+      <li ng-repeat="file in torrent.files">
+        <p>{{file.name}}</p>
+      </li>
+    </ul>
+  </li>
+</ul>
