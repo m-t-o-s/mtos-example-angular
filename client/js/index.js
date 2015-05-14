@@ -9,14 +9,14 @@ angular.module('mtos', [
 
 .constant('version', require('../../package.json').version)
 
-.controller('WelcomeCtrl', require('./welcome/welcome.controller'))
+.controller('DebugController', require('./welcome/welcome.controller'))
 
 .config(function ($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise("/debug")
+  $urlRouterProvider.otherwise('/debug')
   $stateProvider
   .state('debug', {
-    url: "/debug",
-    controller: 'WelcomeCtrl',
-    templateUrl: "js/welcome/welcome.template.html"
+    url: '/debug',
+    controller: 'DebugController',
+    templateUrl: 'js/welcome/welcome.template.html'
   })
 })
