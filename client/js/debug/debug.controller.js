@@ -1,16 +1,16 @@
 'use strict'
 
-var debug = function ($scope, webtorrentFactory, version) {
+var debug = function ($scope, mtosFactory, version) {
 
   var self = this
 
   self.data = 'here\'s teh data'
-  self.webTorrent = webtorrentFactory
+  self.mtos = mtosFactory
 
   self.save = function () {
-    return self.webTorrent.createTextFile(self.data)
+    return self.mtos.createTextFile(self.data)
     .then(function (torrent) {
-      self.webTorrent.readTextFile(torrent)
+      self.mtos.readTextFile(torrent)
       .then(function (text) {
         console.log(text)
       })

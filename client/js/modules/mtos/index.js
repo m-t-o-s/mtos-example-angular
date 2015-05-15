@@ -2,9 +2,9 @@
 
 var mtos = require('mtos')
 
-function webtorrentFactory () {
+function mtosFactory () {
   return mtos
 }
 
-module.exports = window.angular.module('webtorrent', [])
-  .factory('webtorrentFactory', webtorrentFactory)
+module.exports = window.angular.module('mtos', [])
+  .factory('mtosFactory', mtosFactory)
