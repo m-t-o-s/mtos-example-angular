@@ -25,8 +25,7 @@ var source = require('vinyl-source-stream')
 // image optimization
 var imagemin = require('gulp-imagemin')
 // linting
-var jshint = require('gulp-jshint')
-var stylish = require('jshint-stylish')
+var standard = require('gulp-standard')
 // testing/mocha
 var mocha = require('gulp-mocha')
 
@@ -145,16 +144,16 @@ var tasks = {
   // --------------------------
   // linting
   // --------------------------
-  lintjs: function () {
+  standard: function () {
     return gulp.src([
-        'gulpfile.js',
-        './client/js/index.js',
-        './client/js/**/*.js'
-      ]).pipe(jshint())
-      .pipe(jshint.reporter(stylish))
-      .on('error', function () {
-        beep()
-      })
+      'gulpfile.js',
+      './client/js/index.js',
+      './client/js/**/*.js'
+    ])
+    .pipe(standard())
+    .pipe(standard.reporter('default', {
+      breakOnError: true
+    }))
   },
   // --------------------------
   // Optimize asset images
@@ -213,7 +212,7 @@ gulp.task('templates', req, tasks.templates)
 gulp.task('assets', req, tasks.assets)
 gulp.task('sass', req, tasks.sass)
 gulp.task('browserify', req, tasks.browserify)
-gulp.task('lint:js', tasks.lintjs)
+gulp.task('standard', tasks.standard)
 gulp.task('optimize', tasks.optimize)
 gulp.task('test', tasks.test)
 
@@ -230,7 +229,7 @@ gulp.task('watch', ['assets', 'templates', 'sass', 'browserify', 'browser-sync']
   // --------------------------
   // watch:js
   // --------------------------
-  gulp.watch('./client/js/**/*.js', ['reload-js'])
+  gulp.watch('./client/js/**/*.js', ['standard', 'reload-js'])
 
   // --------------------------
   // watch:html
