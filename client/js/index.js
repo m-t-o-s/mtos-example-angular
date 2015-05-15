@@ -2,8 +2,8 @@
 
 var angular = require('angular')
 
-angular.module('mtos', [
-  require('./modules/webtorrent').name,
+angular.module('mtosClient', [
+  require('./modules/mtos').name,
   require('angular-ui-router')
 ])
 

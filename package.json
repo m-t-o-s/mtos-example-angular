@@ -14,7 +14,6 @@
     "autoprefixer-core": "^5.1.11",
     "browser-sync": "^2.7.1",
     "browserify": "^10.1.3",
-    "buffer": "^3.2.2",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-if": "^1.2.5",
@@ -28,10 +27,10 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.4",
     "jshint-stylish": "^1.0.2",
+    "mtos": "git+ssh://git@git.diff.mx:mtos/mtos-server.git",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.1",
-    "webtorrent": "^0.38.0",
     "yargs": "^3.9.0"
   }
 }
