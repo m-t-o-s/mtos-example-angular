@@ -2,10 +2,22 @@
 
 var debug = function ($scope, mtosFactory, version) {
 
+  window.debug = this
+
   var self = this
 
   self.data = 'here\'s the data'
   self.mtos = mtosFactory
+
+  self.mtos.newServerKey()
+  .then(function (keypair) {
+    $scope.$apply(function () {
+      self.keypair = {
+        publicKey: window.forge.ssh.publicKeyToOpenSSH(keypair.publicKey),
+        privateKey: window.forge.ssh.privateKeyToOpenSSH(keypair.privateKey)
+      }
+    })
+  })
 
   self.save = function () {
     return self.mtos.createTextFile(self.data)

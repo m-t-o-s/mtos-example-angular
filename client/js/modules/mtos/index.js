@@ -3,6 +3,7 @@
 var mtos = require('mtos')
 
 function mtosFactory () {
+  window.mtos = mtos
   return mtos
 }
 
