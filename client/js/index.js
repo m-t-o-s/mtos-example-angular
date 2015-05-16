@@ -3,7 +3,8 @@
 var angular = require('angular')
 
 angular.module('mtosClient', [
-  require('./modules/mtos').name,
+  require('./modules/mtos.factory').name,
+  require('./modules/emojiprint.filter').name,
   require('angular-ui-router')
 ])
 

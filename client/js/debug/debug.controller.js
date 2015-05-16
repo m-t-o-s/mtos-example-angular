@@ -13,8 +13,11 @@ var debug = function ($scope, mtosFactory, version) {
   .then(function (keypair) {
     $scope.$apply(function () {
       self.keypair = {
-        publicKey: window.forge.ssh.publicKeyToOpenSSH(keypair.publicKey),
-        privateKey: window.forge.ssh.privateKeyToOpenSSH(keypair.privateKey)
+        publicKey: keypair.publicKey,
+        privateKey: keypair.privateKey,
+        publicKeyFingerprint: window.forge.ssh.getPublicKeyFingerprint(keypair.publicKey, {encoding: 'hex', delimiter: ':'}),
+        publicKeyString: window.forge.ssh.publicKeyToOpenSSH(keypair.publicKey),
+        privateKeyString: window.forge.ssh.privateKeyToOpenSSH(keypair.privateKey)
       }
     })
   })

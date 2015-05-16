@@ -13,4 +13,4 @@
   </li>
 </ul>
 
-<pre>{{debug.keypair | json}}</pre>
+<h2 ng-if="debug.keypair">Public Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
