@@ -1,25 +1,16 @@
 'use strict'
 
-var debug = function ($scope, mtosFactory, version) {
+var debug = function ($scope, mtos, version) {
 
-  window.debug = this
+  window.debugController = this
 
   var self = this
 
   self.data = 'here\'s the data'
-  self.mtos = mtosFactory
+  self.mtos = mtos
 
-  self.mtos.newServerKey()
-  .then(function (keypair) {
-    $scope.$apply(function () {
-      self.keypair = {
-        publicKey: keypair.publicKey,
-        privateKey: keypair.privateKey,
-        publicKeyFingerprint: window.forge.ssh.getPublicKeyFingerprint(keypair.publicKey, {encoding: 'hex', delimiter: ':'}),
-        publicKeyString: window.forge.ssh.publicKeyToOpenSSH(keypair.publicKey),
-        privateKeyString: window.forge.ssh.privateKeyToOpenSSH(keypair.privateKey)
-      }
-    })
+  $scope.$watch(mtos.serverKey, function (value) {
+    console.log('key', value)
   })
 
   self.save = function () {

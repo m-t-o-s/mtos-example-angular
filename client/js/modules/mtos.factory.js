@@ -8,4 +8,4 @@ function mtosFactory () {
 }
 
 module.exports = window.angular.module('mtos', [])
-  .factory('mtosFactory', mtosFactory)
+  .factory('mtos', mtosFactory)
