@@ -28,7 +28,7 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.4",
     "jshint-stylish": "^1.0.2",
-    "mtos": "git+ssh://git@git.diff.mx:mtos/mtos-server.git",
+    "mtos": "git+ssh://git@git.diff.mx:mtos/mtos.git",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.1",
