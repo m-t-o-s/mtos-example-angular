@@ -80,6 +80,10 @@ var tasks = {
     return gulp.src('./client/assets/**/*')
       .pipe(gulp.dest('build/assets/'))
   },
+  forge: function () {
+    return gulp.src('./node_modules/mtos/node_modules/node-forge/js/**/*')
+      .pipe(gulp.dest('build/forge/'))
+  },
   // --------------------------
   // HTML
   // --------------------------
@@ -210,6 +214,7 @@ var req = build ? ['clean'] : []
 // individual tasks
 gulp.task('templates', req, tasks.templates)
 gulp.task('assets', req, tasks.assets)
+gulp.task('forge', req, tasks.forge)
 gulp.task('sass', req, tasks.sass)
 gulp.task('browserify', req, tasks.browserify)
 gulp.task('standard', tasks.standard)
@@ -219,7 +224,7 @@ gulp.task('test', tasks.test)
 // --------------------------
 // DEV/WATCH TASK
 // --------------------------
-gulp.task('watch', ['assets', 'templates', 'sass', 'browserify', 'browser-sync'], function () {
+gulp.task('watch', ['assets', 'forge', 'templates', 'sass', 'browserify', 'browser-sync'], function () {
 
   // --------------------------
   // watch:sass
@@ -245,6 +250,7 @@ gulp.task('build', [
   'clean',
   'templates',
   'assets',
+  'forge',
   'sass',
   'browserify'
 ])
