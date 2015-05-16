@@ -230,6 +230,7 @@ gulp.task('watch', ['assets', 'templates', 'sass', 'browserify', 'browser-sync']
   // watch:js
   // --------------------------
   gulp.watch('./client/js/**/*.js', ['standard', 'reload-js'])
+  gulp.watch('./mtos/**/*.js', ['reload-js'])
 
   // --------------------------
   // watch:html

@@ -4,7 +4,7 @@ var debug = function ($scope, mtosFactory, version) {
 
   var self = this
 
-  self.data = 'here\'s teh data'
+  self.data = 'here\'s the data'
   self.mtos = mtosFactory
 
   self.save = function () {
