@@ -13,7 +13,25 @@
   </li>
 </ul>
 
-<h2 ng-if="debug.keypair">Public Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
+<h2 ng-if="debug.keypair">Server Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
+
+
+<input ng-model="debug.newUser.username" placeholder="User Name"/>
+<input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase"/>
+<button ng-click="debug.addUser()">Add User</button>
+
+<ul ng-if="debug.users">
+  <li ng-repeat="user in debug.users">
+    <p>{{user.username}}</p>
+    <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
+    <p ng-if="!user.keypair.publicKey">
+      <input ng-model="debug.passphrases[user.mtID]" />
+      <button ng-click="debug.unlockUser(user.mtID)">Unlock</button>
+    </p>
+  </li>
+</ul>
+
+<h2>Backup Management</h2>
 
 <button ng-click="debug.createArchive()">Create Archive</button>
 

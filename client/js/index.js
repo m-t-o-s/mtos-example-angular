@@ -14,6 +14,7 @@ angular.module('mtosClient', [
 
 .run(function (mtosKeyService) {
   mtosKeyService.loadServerKey()
+  mtosKeyService.loadUserKeys()
 })
 
 .controller('DebugController', require('./debug/debug.controller'))

@@ -5,7 +5,6 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
   service.loadServerKey = function () {
     return $localStorage.getObject('serverKey')
     .then(function (serverKey) {
-      console.log('mtos loaded server key strings from localStorage', serverKey)
       if (serverKey.privateKeyString === undefined) {
         console.log('mtos generating server key')
         return mtos.newServerKey()
@@ -20,6 +19,7 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
           return keypair
         })
       } else {
+        console.log('mtos loaded server key strings from localStorage', serverKey)
         var deferred = $q.defer()
         deferred.resolve(serverKey)
         return deferred.promise
@@ -39,6 +39,43 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
       mtosBroadcastService.broadcast('server key loaded')
       return serverKey
     })
+  }
+
+  service.loadUserKeys = function () {
+    return $localStorage.getObject('users')
+    .then(function (users) {
+      mtos.users = users
+      mtosBroadcastService.broadcast('loaded users')
+    })
+  }
+
+  service.addUserKey = function (options) {
+    return mtos.newUserKey(options)
+    .then(function (keypair) {
+      var storedKey = {
+        publicKeyFingerprint: keypair.publicKeyFingerprint,
+        publicKeyString: keypair.publicKeyString,
+        privateKeyString: keypair.privateKeyString
+      }
+      return $localStorage.getObject('users')
+      .then(function (users) {
+        users[storedKey.publicKeyFingerprint.replace(/\:/g, '')] = {
+          keypair: storedKey,
+          username: options.username,
+          mtID: storedKey.publicKeyFingerprint.replace(/\:/g, '')
+        }
+        return $localStorage.setObject('users', users)
+        .then(function (users) {
+          return keypair
+        })
+      })
+    })
+  }
+
+  service.unlockUserKey = function (options) {
+    var deferred = $q.defer()
+    deferred.resolve(mtos.loadKeyFromStrings(mtos.users[options.mtID].keypair, options))
+    return deferred.promise
   }
 
   return service
