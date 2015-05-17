@@ -19,7 +19,6 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
           return keypair
         })
       } else {
-        console.log('mtos loaded server key strings from localStorage', serverKey)
         var deferred = $q.defer()
         deferred.resolve(serverKey)
         return deferred.promise
