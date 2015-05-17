@@ -9,6 +9,21 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, $localStorage
   self.data = 'here\'s the data'
   self.mtos = mtos
 
+  self.users = []
+  self.newUser = {}
+
+  self.addUser = function () {
+    var options = {
+      passphrase: self.newUser.passphrase,
+      username: self.newUser.username
+    }
+    console.log('adding user', options)
+    mtos.newUserKey(options)
+    .then(function (keypair) {
+      console.log('keypair', keypair)
+    })
+  }
+
   mtosBroadcastService.listen('server key loaded', function () {
     self.keypair = mtos.serverKey
   })
