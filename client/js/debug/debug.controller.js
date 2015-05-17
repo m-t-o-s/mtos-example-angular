@@ -21,6 +21,12 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
     mtosKeyService.addUserKey(options)
     .then(function (keypair) {
       console.log('keypair', keypair)
+      self.users.push({
+        username: options.username,
+        fingerprint: keypair.publicKeyFingerprint,
+        passphrase: options.passphrase,
+        keypair: keypair
+      })
     })
   }
 

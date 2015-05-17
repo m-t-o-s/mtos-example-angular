@@ -50,7 +50,16 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
         publicKeyString: keypair.publicKeyString,
         privateKeyString: keypair.privateKeyString
       }
-      $localStorage.setObject('userKey', storedKey)
+      $localStorage.getObject('mtosUsers')
+      .then(function (users) {
+        console.log(users)
+        users[storedKey.publicKeyFingerprint] = {
+          keypair: storedKey,
+          username: options.username,
+          fingerprint: storedKey.publicKeyFingerprint
+        }
+        $localStorage.setObject('users', users)
+      })
       return keypair
     })
   }

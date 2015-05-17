@@ -22,7 +22,7 @@
 
 <ul ng-if="debug.users">
   <li ng-repeat="user in debug.users">
-    <p>{{user.name}}</p>
+    <p>{{user.username}}</p>
     <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
     <p ng-if="!user.keypair.publicKey">
       <input ng-model="debug.passphrases[user.keypair.publicKeyFingerprint]" />
