@@ -16,3 +16,7 @@
 <h2 ng-if="debug.keypair">Public Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
 
 <button ng-click="debug.createArchive()">Create Archive</button>
+
+<br />
+
+<input type="file" fileread="debug.backupFile" />

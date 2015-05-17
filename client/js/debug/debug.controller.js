@@ -29,6 +29,12 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, $localStorage
 
   self.createArchive = $localStorageArchive.exportData
 
+  $scope.$watch('debug.backupFile', function (file) {
+    if (file !== undefined) {
+      $localStorageArchive.loadLocalStorageData(file)
+    }
+  })
+
 }
 
 module.exports = debug
