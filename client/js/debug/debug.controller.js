@@ -1,11 +1,20 @@
 'use strict'
 
-var debug = function ($scope, mtosFactory, version) {
+var debug = function ($scope, mtos, version, mtosBroadcastService) {
+
+  window.debugController = this
 
   var self = this
 
   self.data = 'here\'s the data'
-  self.mtos = mtosFactory
+  self.mtos = mtos
+
+  mtosBroadcastService.listen('server key loaded', function () {
+    self.keypair = mtos.serverKey
+  })
+  if (mtos.serverKey) {
+    self.keypair = mtos.serverKey
+  }
 
   self.save = function () {
     return self.mtos.createTextFile(self.data)
