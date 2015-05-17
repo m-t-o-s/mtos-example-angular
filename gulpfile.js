@@ -80,6 +80,10 @@ var tasks = {
     return gulp.src('./client/assets/**/*')
       .pipe(gulp.dest('build/assets/'))
   },
+  favicon: function () {
+    return gulp.src('./client/favicon.ico')
+      .pipe(gulp.dest('build/'))
+  },
   forge: function () {
     return gulp.src('./node_modules/mtos/node_modules/node-forge/js/**/*')
       .pipe(gulp.dest('build/forge/'))
@@ -214,6 +218,7 @@ var req = build ? ['clean'] : []
 // individual tasks
 gulp.task('templates', req, tasks.templates)
 gulp.task('assets', req, tasks.assets)
+gulp.task('favicon', req, tasks.favicon)
 gulp.task('forge', req, tasks.forge)
 gulp.task('sass', req, tasks.sass)
 gulp.task('browserify', req, tasks.browserify)
@@ -224,7 +229,7 @@ gulp.task('test', tasks.test)
 // --------------------------
 // DEV/WATCH TASK
 // --------------------------
-gulp.task('watch', ['assets', 'forge', 'templates', 'sass', 'browserify', 'browser-sync'], function () {
+gulp.task('watch', ['assets', 'favicon', 'forge', 'templates', 'sass', 'browserify', 'browser-sync'], function () {
 
   // --------------------------
   // watch:sass
@@ -250,6 +255,7 @@ gulp.task('build', [
   'clean',
   'templates',
   'assets',
+  'favicon',
   'forge',
   'sass',
   'browserify'
