@@ -10,7 +10,6 @@ var debug = function ($scope, mtos, version, broadcastService) {
   self.mtos = mtos
 
   broadcastService.listen('server key loaded', function () {
-    console.log('heard broadcast')
     self.keypair = mtos.serverKey
   })
   if (mtos.serverKey) {
