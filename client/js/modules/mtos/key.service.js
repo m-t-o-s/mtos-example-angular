@@ -72,6 +72,12 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
     })
   }
 
+  service.unlockUserKey = function (options) {
+    var deferred = $q.defer()
+    deferred.resolve(mtos.loadKeyFromStrings(mtos.users[options.mtID].keypair, options))
+    return deferred.promise
+  }
+
   return service
 }
 

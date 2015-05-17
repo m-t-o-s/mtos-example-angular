@@ -9,7 +9,6 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   self.data = 'here\'s the data'
   self.mtos = mtos
 
-  self.users = {}
   self.newUser = {}
 
   mtosBroadcastService.listen('loaded users', function () {
@@ -17,6 +16,8 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   })
   if (mtos.users) {
     self.users = mtos.users
+  } else {
+    self.users = {}
   }
 
   self.addUser = function () {
@@ -35,6 +36,23 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
           keypair: keypair
         }
       })
+    })
+  }
+
+  self.unlockUser = function (mtID) {
+    var options = {
+      mtID: mtID,
+      passphrase: self.passphrases[mtID]
+    }
+    mtosKeyService.unlockUserKey(options)
+    .then(function (usableKeys) {
+      if (usableKeys.privateKey !== null) {
+        self.users[mtID].keypair.privateKey = usableKeys.privateKey
+        self.users[mtID].keypair.publicKey = usableKeys.publicKey
+        delete self.passphrases[mtID]
+      } else {
+        window.alert('incorrect passphrase')
+      }
     })
   }
 

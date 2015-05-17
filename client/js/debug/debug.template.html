@@ -25,8 +25,8 @@
     <p>{{user.username}}</p>
     <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
     <p ng-if="!user.keypair.publicKey">
-      <input ng-model="debug.passphrases[user.keypair.publicKeyFingerprint]" />
-      <button ng-click="debug.unlockKey(user.keypair.publicKeyFingerprint)">Unlock</button>
+      <input ng-model="debug.passphrases[user.mtID]" />
+      <button ng-click="debug.unlockUser(user.mtID)">Unlock</button>
     </p>
   </li>
 </ul>
