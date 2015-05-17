@@ -9,7 +9,7 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   self.data = 'here\'s the data'
   self.mtos = mtos
 
-  self.users = []
+  self.users = {}
   self.newUser = {}
 
   mtosBroadcastService.listen('loaded users', function () {
@@ -24,15 +24,16 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
       passphrase: self.newUser.passphrase,
       username: self.newUser.username
     }
-    console.log('adding user', options)
     mtosKeyService.addUserKey(options)
     .then(function (keypair) {
-      console.log('keypair', keypair)
-      self.users.push({
-        username: options.username,
-        mtID: keypair.publicKeyFingerprint.replace(/\:/g, ''),
-        passphrase: options.passphrase,
-        keypair: keypair
+      $scope.$apply(function () {
+        var mtID = keypair.publicKeyFingerprint.replace(/\:/g, '')
+        self.users[mtID] = {
+          username: options.username,
+          mtID: mtID,
+          passphrase: options.passphrase,
+          keypair: keypair
+        }
       })
     })
   }

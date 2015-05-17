@@ -52,23 +52,23 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
   service.addUserKey = function (options) {
     return mtos.newUserKey(options)
     .then(function (keypair) {
-      console.log('mtos generated user key', options.username, keypair)
       var storedKey = {
         publicKeyFingerprint: keypair.publicKeyFingerprint,
         publicKeyString: keypair.publicKeyString,
         privateKeyString: keypair.privateKeyString
       }
-      $localStorage.getObject('mtosUsers')
+      return $localStorage.getObject('users')
       .then(function (users) {
-        console.log(users)
         users[storedKey.publicKeyFingerprint.replace(/\:/g, '')] = {
           keypair: storedKey,
           username: options.username,
           mtID: storedKey.publicKeyFingerprint.replace(/\:/g, '')
         }
-        $localStorage.setObject('users', users)
+        return $localStorage.setObject('users', users)
+        .then(function (users) {
+          return keypair
+        })
       })
-      return keypair
     })
   }
 
