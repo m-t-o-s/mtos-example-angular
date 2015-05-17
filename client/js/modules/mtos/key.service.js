@@ -41,6 +41,14 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
     })
   }
 
+  service.loadUserKeys = function () {
+    return $localStorage.getObject('users')
+    .then(function (users) {
+      mtos.users = users
+      mtosBroadcastService.broadcast('loaded users')
+    })
+  }
+
   service.addUserKey = function (options) {
     return mtos.newUserKey(options)
     .then(function (keypair) {

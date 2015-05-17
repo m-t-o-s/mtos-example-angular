@@ -12,6 +12,13 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   self.users = []
   self.newUser = {}
 
+  mtosBroadcastService.listen('loaded users', function () {
+    self.users = mtos.users
+  })
+  if (mtos.users) {
+    self.users = mtos.users
+  }
+
   self.addUser = function () {
     var options = {
       passphrase: self.newUser.passphrase,
