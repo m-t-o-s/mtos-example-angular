@@ -4,7 +4,7 @@
   "description": "the web client for creating and viewing mtos content",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd mtos/node_modules/node-forge/ && npm install && npm run minify",
+    "postinstall": "cd node_modules/mtos/node_modules/node-forge/ && npm install && npm run minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andrew Davis <diffalot@diff.mx>",
