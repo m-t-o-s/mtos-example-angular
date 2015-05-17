@@ -1,11 +1,6 @@
 'use strict'
 
-var mtos = require('mtos')
-
-function mtosFactory () {
-  window.mtos = mtos
-  return mtos
-}
-
 module.exports = window.angular.module('mtos', [])
-  .factory('mtos', mtosFactory)
+  .factory('mtos', require('./mtos.factory'))
+  .service('mtosBroadcastService', require('./broadcast.service'))
+  .service('mtosKeyService', require('./key.service'))

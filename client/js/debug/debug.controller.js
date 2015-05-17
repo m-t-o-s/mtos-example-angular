@@ -1,6 +1,6 @@
 'use strict'
 
-var debug = function ($scope, mtos, version, broadcastService) {
+var debug = function ($scope, mtos, version, mtosBroadcastService) {
 
   window.debugController = this
 
@@ -9,7 +9,7 @@ var debug = function ($scope, mtos, version, broadcastService) {
   self.data = 'here\'s the data'
   self.mtos = mtos
 
-  broadcastService.listen('server key loaded', function () {
+  mtosBroadcastService.listen('server key loaded', function () {
     self.keypair = mtos.serverKey
   })
   if (mtos.serverKey) {
