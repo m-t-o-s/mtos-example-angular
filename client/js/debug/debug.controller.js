@@ -1,6 +1,6 @@
 'use strict'
 
-var debug = function ($scope, mtos, version, mtosBroadcastService, $localStorageArchive) {
+var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyService, $localStorageArchive) {
 
   window.debugController = this
 
@@ -18,7 +18,7 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, $localStorage
       username: self.newUser.username
     }
     console.log('adding user', options)
-    mtos.newUserKey(options)
+    mtosKeyService.addUserKey(options)
     .then(function (keypair) {
       console.log('keypair', keypair)
     })

@@ -41,6 +41,20 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
     })
   }
 
+  service.addUserKey = function (options) {
+    return mtos.newUserKey(options)
+    .then(function (keypair) {
+      console.log('mtos generated user key', options.username, keypair)
+      var storedKey = {
+        publicKeyFingerprint: keypair.publicKeyFingerprint,
+        publicKeyString: keypair.publicKeyString,
+        privateKeyString: keypair.privateKeyString
+      }
+      $localStorage.setObject('userKey', storedKey)
+      return keypair
+    })
+  }
+
   return service
 }
 
