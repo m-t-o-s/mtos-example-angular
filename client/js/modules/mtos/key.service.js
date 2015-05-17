@@ -5,7 +5,7 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
   service.loadServerKey = function () {
     return $localStorage.getObject('serverKey')
     .then(function (serverKey) {
-      console.log('mtos loaded server key from localStorage', serverKey)
+      console.log('mtos loaded server key strings from localStorage', serverKey)
       if (serverKey.privateKeyString === undefined) {
         console.log('mtos generating server key')
         return mtos.newServerKey()
@@ -16,13 +16,22 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
             publicKeyString: keypair.publicKeyString,
             privateKeyString: keypair.privateKeyString
           }
-          return $localStorage.setObject('serverKey', storedKey)
+          $localStorage.setObject('serverKey', storedKey)
+          return keypair
         })
       } else {
         var deferred = $q.defer()
         deferred.resolve(serverKey)
         return deferred.promise
       }
+    })
+    .then(function (serverKey) {
+      if (typeof serverKey.privateKey !== 'object') {
+        var usableKeys = mtos.loadKeyFromStrings(serverKey)
+        serverKey.privateKey = usableKeys.privateKey
+        serverKey.publicKey = usableKeys.publicKey
+      }
+      return serverKey
     })
     .then(function (serverKey) {
       mtos.serverKey = serverKey
