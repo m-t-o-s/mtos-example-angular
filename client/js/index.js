@@ -11,15 +11,23 @@ angular.module('mtosClient', [
 
 .constant('version', require('../../package.json').version)
 
-.run(function ($localStorage, $rootScope, mtos) {
-  return $localStorage.getObject('serverKey')
+.service('broadcastService', function ($rootScope) {
+  this.broadcast = function (message) {
+    $rootScope.$broadcast(message)
+  }
+  this.listen = function (message, callback) {
+    $rootScope.$on(message, callback)
+  }
+})
+.run(function ($localStorage, $rootScope, $q, mtos, broadcastService) {
+  $localStorage.getObject('serverKey')
   .then(function (serverKey) {
-    console.log('mtos loaded key from localStorage', serverKey)
+    console.log('mtos loaded server key from localStorage', serverKey)
     if (serverKey.privateKeyString === undefined) {
+      console.log('generating server key')
       return mtos.newServerKey()
       .then(function (keypair) {
-        console.log('mtos generated key', keypair)
-        mtos.serverKey = keypair
+        console.log('mtos generated server key', keypair)
         var storedKey = {
           publicKeyFingerprint: keypair.publicKeyFingerprint,
           publicKeyString: keypair.publicKeyString,
@@ -28,9 +36,16 @@ angular.module('mtosClient', [
         return $localStorage.setObject('serverKey', storedKey)
       })
     } else {
-      mtos.serverKey = serverKey
-      return serverKey
+      var deferred = $q.defer()
+      deferred.resolve(serverKey)
+      return deferred.promise
     }
+  })
+  .then(function (serverKey) {
+    mtos.serverKey = serverKey
+    console.log('mtos loaded server key', serverKey)
+    broadcastService.broadcast('server key loaded')
+    return serverKey
   })
 })
 

@@ -1,6 +1,6 @@
 'use strict'
 
-var debug = function ($scope, mtos, version) {
+var debug = function ($scope, mtos, version, broadcastService) {
 
   window.debugController = this
 
@@ -9,9 +9,13 @@ var debug = function ($scope, mtos, version) {
   self.data = 'here\'s the data'
   self.mtos = mtos
 
-  $scope.$watch(mtos.serverKey, function (value) {
-    console.log('key', value)
+  broadcastService.listen('server key loaded', function () {
+    console.log('heard broadcast')
+    self.keypair = mtos.serverKey
   })
+  if (mtos.serverKey) {
+    self.keypair = mtos.serverKey
+  }
 
   self.save = function () {
     return self.mtos.createTextFile(self.data)
