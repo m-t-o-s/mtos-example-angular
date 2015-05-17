@@ -23,7 +23,7 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
       console.log('keypair', keypair)
       self.users.push({
         username: options.username,
-        fingerprint: keypair.publicKeyFingerprint,
+        mtID: keypair.publicKeyFingerprint.replace(/\:/g, ''),
         passphrase: options.passphrase,
         keypair: keypair
       })

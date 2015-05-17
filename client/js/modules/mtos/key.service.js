@@ -53,10 +53,10 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
       $localStorage.getObject('mtosUsers')
       .then(function (users) {
         console.log(users)
-        users[storedKey.publicKeyFingerprint] = {
+        users[storedKey.publicKeyFingerprint.replace(/\:/g, '')] = {
           keypair: storedKey,
           username: options.username,
-          fingerprint: storedKey.publicKeyFingerprint
+          mtID: storedKey.publicKeyFingerprint.replace(/\:/g, '')
         }
         $localStorage.setObject('users', users)
       })
