@@ -1,6 +1,6 @@
 'use strict'
 
-var debug = function ($scope, mtos, version, mtosBroadcastService) {
+var debug = function ($scope, mtos, version, mtosBroadcastService, $localStorageArchive) {
 
   window.debugController = this
 
@@ -26,6 +26,14 @@ var debug = function ($scope, mtos, version, mtosBroadcastService) {
       return torrent
     })
   }
+
+  self.createArchive = $localStorageArchive.exportData
+
+  $scope.$watch('debug.backupFile', function (file) {
+    if (file !== undefined) {
+      $localStorageArchive.loadLocalStorageData(file)
+    }
+  })
 
 }
 

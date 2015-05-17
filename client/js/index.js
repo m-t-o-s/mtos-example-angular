@@ -4,6 +4,7 @@ var angular = require('angular')
 
 angular.module('mtosClient', [
   require('./modules/localStorage.factory').name,
+  require('./modules/localStorage-archive.service').name,
   require('./modules/mtos').name,
   require('./modules/emojiprint.filter').name,
   require('angular-ui-router')
