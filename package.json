@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cd node_modules/mtos/node_modules/node-forge/ && npm install && npm run minify",
+    "size": "gulp build --production && cat build/**/*.* | gzip | wc -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andrew Davis <diffalot@diff.mx>",
