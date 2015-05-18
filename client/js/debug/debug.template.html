@@ -1,3 +1,4 @@
+<div class="debug">
 <form>
   <textarea ng-model="debug.data"></textarea>
   <button ng-click="debug.save()">save</button>
@@ -16,18 +17,20 @@
 <h2 ng-if="debug.keypair">Server Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
 
 
-<input ng-model="debug.newUser.username" placeholder="User Name" required />
-<input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
-<button ng-click="debug.addUser()">Add User</button>
+<form>
+  <input ng-model="debug.newUser.username" placeholder="User Name" required />
+  <input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
+  <button ng-click="debug.addUser()">Add User</button>
+</form>
 
 <ul ng-if="debug.users">
   <li ng-repeat="user in debug.users">
     <p>{{user.username}}</p>
     <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
-    <p ng-if="!user.keypair.publicKey">
+    <form ng-if="!user.keypair.publicKey">
       <input ng-model="debug.passphrases[user.mtID]" />
       <button ng-click="debug.unlockUser(user.mtID)">Unlock</button>
-    </p>
+    </form>
   </li>
 </ul>
 
@@ -38,3 +41,4 @@
 <br />
 
 <input type="file" fileread="debug.backupFile" />
+</div>

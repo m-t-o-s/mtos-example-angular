@@ -105,7 +105,8 @@ var tasks = {
       .pipe(gulpif(!production, sourcemaps.init()))
       .pipe(sass({
         sourceComments: !production,
-        outputStyle: production ? 'compressed' : 'nested'
+        outputStyle: production ? 'compressed' : 'nested',
+        includePaths: require('node-neat').includePaths
       }))
       .on('error', handleError('SASS'))
       // generate .maps
