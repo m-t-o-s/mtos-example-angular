@@ -1,6 +1,6 @@
 'use strict'
 
-var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
+var debug = function ($scope, mtos, version, configuration, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
 
   window.db = this
 
@@ -104,6 +104,11 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
       encrypt: true,
       privateKey: self.users[self.activeUser].keypair.privateKey,
       publicKey: mtos.publicKeyFromString(publicKeyString)
+    }
+    if (configuration.trackers) {
+      options.torrentOptions = {
+        announceList: configuration.trackers
+      }
     }
     var content = JSON.stringify({
       content: self.data,

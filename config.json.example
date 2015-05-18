@@ -1,0 +1,8 @@
+{
+  "trackers": [
+    [
+      "udp://localhost:8000",
+      "wss://localhost:8000"
+    ]
+  ]
+}
