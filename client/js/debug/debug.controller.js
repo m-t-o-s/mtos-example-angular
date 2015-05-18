@@ -64,11 +64,13 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   }
 
   self.save = function () {
+
+    var user = self.users[Object.keys(self.users)[0]]
+
     var options = {
       encrypt: true,
-      author: 'bc200d0580e1cb3aca6ece05bde2998e2786c345',
-      privateKey: self.users['bc200d0580e1cb3aca6ece05bde2998e2786c345'].keypair.privateKey,
-      publicKey: self.users['bc200d0580e1cb3aca6ece05bde2998e2786c345'].keypair.publicKey
+      privateKey: user.keypair.privateKey,
+      publicKey: user.keypair.publicKey
     }
     var content = {
       content: self.data
@@ -76,11 +78,23 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
     console.log('calling create', content, options)
     return self.mtos.createContent(content, options)
     .then(function (torrent) {
-      self.mtos.readTextFile(torrent)
-      .then(function (text) {
-        console.log(text)
+      return self.read(torrent)
+    })
+  }
+
+  self.read = function (torrent) {
+    console.log('sending torrent to mtos for reading')
+    var user = self.users[Object.keys(self.users)[0]]
+    var options = {
+      privateKey: user.keypair.privateKey,
+      publicKey: user.keypair.publicKey
+    }
+    return mtos.readContent(torrent, options)
+    .then(function (content) {
+      $scope.$apply(function () {
+        self.parsedData = JSON.parse(JSON.parse(content))
+        console.log('received content', self.parsedData)
       })
-      return torrent
     })
   }
 

@@ -1,44 +1,52 @@
 <div class="debug">
-<form>
-  <textarea ng-model="debug.data"></textarea>
-  <button ng-click="debug.save()">save</button>
-</form>
-<ul>
-  <li ng-repeat="torrent in debug.webTorrent.client.torrents">
-    <p>{{torrent.name}}</p>
-    <ul>
-      <li ng-repeat="file in torrent.files">
-        <p>{{file.name}}</p>
-      </li>
-    </ul>
-  </li>
-</ul>
 
-<h2 ng-if="debug.keypair">Server Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
+  <h2 ng-if="debug.keypair">Server Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
+
+  <div class="debug-data">
+    <div class="debug-input">
+      <form>
+        <textarea ng-model="debug.data"></textarea>
+        <button ng-click="debug.save()">save</button>
+      </form>
+    </div>
+    <div class="debug-output">
+      <p>{{debug.parsedData.content}}</p>
+    </div>
+  </div>
+  <ul>
+    <li ng-repeat="torrent in debug.webTorrent.client.torrents">
+      <p>{{torrent.name}}</p>
+      <ul>
+        <li ng-repeat="file in torrent.files">
+          <p>{{file.name}}</p>
+        </li>
+      </ul>
+    </li>
+  </ul>
 
 
-<form>
-  <input ng-model="debug.newUser.username" placeholder="User Name" required />
-  <input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
-  <button ng-click="debug.addUser()">Add User</button>
-</form>
+  <form>
+    <input ng-model="debug.newUser.username" placeholder="User Name" required />
+    <input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
+    <button ng-click="debug.addUser()">Add User</button>
+  </form>
 
-<ul ng-if="debug.users">
-  <li ng-repeat="user in debug.users">
-    <p>{{user.username}}</p>
-    <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
-    <form ng-if="!user.keypair.publicKey">
-      <input ng-model="debug.passphrases[user.mtID]" />
-      <button ng-click="debug.unlockUser(user.mtID)">Unlock</button>
-    </form>
-  </li>
-</ul>
+  <ul ng-if="debug.users">
+    <li ng-repeat="user in debug.users">
+      <p>{{user.username}}</p>
+      <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
+      <form ng-if="!user.keypair.publicKey">
+        <input ng-model="debug.passphrases[user.mtID]" />
+        <button ng-click="debug.unlockUser(user.mtID)">Unlock</button>
+      </form>
+    </li>
+  </ul>
 
-<h2>Backup Management</h2>
+  <h2>Backup Management</h2>
 
-<button ng-click="debug.createArchive()">Create Archive</button>
+  <button ng-click="debug.createArchive()">Create Archive</button>
 
-<br />
+  <br />
 
-<input type="file" fileread="debug.backupFile" />
+  <input type="file" fileread="debug.backupFile" />
 </div>
