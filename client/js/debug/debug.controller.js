@@ -64,7 +64,17 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   }
 
   self.save = function () {
-    return self.mtos.createTextFile(self.data)
+    var options = {
+      encrypt: true,
+      author: 'bc200d0580e1cb3aca6ece05bde2998e2786c345',
+      privateKey: self.users['bc200d0580e1cb3aca6ece05bde2998e2786c345'].keypair.privateKey,
+      publicKey: self.users['bc200d0580e1cb3aca6ece05bde2998e2786c345'].keypair.publicKey
+    }
+    var content = {
+      content: self.data
+    }
+    console.log('calling create', content, options)
+    return self.mtos.createContent(content, options)
     .then(function (torrent) {
       self.mtos.readTextFile(torrent)
       .then(function (text) {

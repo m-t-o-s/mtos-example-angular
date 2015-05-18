@@ -16,8 +16,8 @@
 <h2 ng-if="debug.keypair">Server Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
 
 
-<input ng-model="debug.newUser.username" placeholder="User Name"/>
-<input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase"/>
+<input ng-model="debug.newUser.username" placeholder="User Name" required />
+<input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
 <button ng-click="debug.addUser()">Add User</button>
 
 <ul ng-if="debug.users">
