@@ -2,7 +2,7 @@
 
 var JSZip = require('jszip')
 
-function archiveService ($window) {
+function archiveService ($window, $q) {
   var service = {}
 
   service.exportData = function (object) {
@@ -36,17 +36,25 @@ function archiveService ($window) {
     $window.open(blobURL)
   }
 
-  service.loadLocalStorageData = function (zipfile) {
-    var unzip = new JSZip(zipfile)
-    var localStorageString = unzip.file('mtos-backup/localStorage.json').asText()
-    var localStorageSettings = JSON.parse(localStorageString)
-    var localStorageKeys = Object.keys(localStorageSettings)
+  service.loadLocalStorageData = function (zipFile) {
+    return service.unzipData(zipFile)
+    .then(function (localStorageString) {
+      var localStorageSettings = JSON.parse(localStorageString)
+      var localStorageKeys = Object.keys(localStorageSettings)
 
-    for (var i = 0; i < localStorageKeys.length; i++) {
-      var value = localStorageSettings[localStorageKeys[i]]
-      $window.localStorage.setItem(localStorageKeys[i], JSON.stringify(value))
-    }
-    $window.location.reload()
+      for (var i = 0; i < localStorageKeys.length; i++) {
+        var value = localStorageSettings[localStorageKeys[i]]
+        $window.localStorage.setItem(localStorageKeys[i], JSON.stringify(value))
+      }
+      $window.location.reload()
+    })
+  }
+
+  service.unzipData = function (zipFile) {
+    var deferred = $q.defer()
+    var unzip = new JSZip(zipFile)
+    deferred.resolve(unzip.file('mtos-backup/localStorage.json').asText())
+    return deferred.promise
   }
 
   return service

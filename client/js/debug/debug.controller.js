@@ -1,6 +1,6 @@
 'use strict'
 
-var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyService, $localStorageArchive) {
+var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
 
   window.debugController = this
 
@@ -11,8 +11,13 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   self.swarms = {}
   self.messages = []
   self.authenticatedUsers = []
-  self.subscriptions = []
-  self.subscribers = []
+  self.subscriptions = {}
+  self.subscribers = {}
+
+  $localStorage.getObject('subscribers')
+  .then(function (subscribers) {
+    self.subscribers = subscribers
+  })
 
   self.newUser = {}
 
@@ -131,6 +136,26 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   $scope.$watch('debug.backupFile', function (file) {
     if (file !== undefined) {
       $localStorageArchive.loadLocalStorageData(file)
+    }
+  })
+
+  self.addSubscriber = function (newUser) {
+    var user = JSON.parse(newUser).user
+    console.log('adding subscriber', user)
+    return $localStorage.getObject('subscribers')
+    .then(function (subscribers) {
+      subscribers[user.mtID] = user
+      return $localStorage.setObject('subscribers', subscribers)
+      .then(function (subscribers) {
+        self.subscribers = subscribers
+      })
+    })
+  }
+
+  $scope.$watch('debug.addThisSubscriber', function (file) {
+    if (file !== undefined) {
+      $localStorageArchive.unzipData(file)
+      .then(self.addSubscriber)
     }
   })
 
