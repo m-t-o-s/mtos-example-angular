@@ -25,7 +25,7 @@ function archiveService ($window) {
     var folder = zip.folder('mtos-backup')
     folder.file('localStorage.json', service.exportLocalStorageData())
     var blob = zip.generate({type: 'blob'})
-    var blobURL = $window.webkitURL.createObjectURL(blob)
+    var blobURL = $window.URL.createObjectURL(blob)
     $window.open(blobURL)
   }
 
