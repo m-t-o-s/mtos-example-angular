@@ -2,7 +2,7 @@
 
 var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
 
-  window.debugController = this
+  window.db = this
 
   var self = this
 
@@ -12,11 +12,11 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
   self.messages = []
   self.authenticatedUsers = []
   self.subscriptions = {}
-  self.subscribers = {}
 
   $localStorage.getObject('subscribers')
   .then(function (subscribers) {
     self.subscribers = subscribers
+    self.messageTarget = subscribers[Object.keys(subscribers)[0]].mtID
   })
 
   self.newUser = {}
@@ -93,12 +93,17 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
     self.keypair = mtos.serverKey
   }
 
-  self.save = function () {
-
+  self.sendMessage = function () {
+    var publicKeyString
+    if (self.subscribers[self.messageTarget]) {
+      publicKeyString = self.subscribers[self.messageTarget].publicKeyString
+    } else {
+      publicKeyString = self.users[self.messageTarget].keypair.publicKeyString
+    }
     var options = {
       encrypt: true,
       privateKey: self.users[self.activeUser].keypair.privateKey,
-      publicKey: self.users[self.activeUser].keypair.publicKey
+      publicKey: mtos.publicKeyFromString(publicKeyString)
     }
     var content = JSON.stringify({
       content: self.data,

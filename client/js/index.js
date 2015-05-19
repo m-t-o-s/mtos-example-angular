@@ -25,7 +25,7 @@ angular.module('mtosClient', [
   .state('debug', {
     url: '/debug',
     controller: 'DebugController',
-    controllerAs: 'debug',
+    controllerAs: 'db',
     templateUrl: 'js/debug/debug.template.html'
   })
 })
