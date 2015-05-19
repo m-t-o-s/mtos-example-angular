@@ -8,6 +8,11 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
 
   self.data = 'here\'s the data'
   self.mtos = mtos
+  self.swarms = {}
+  self.messages = []
+  self.authenticatedUsers = []
+  self.subscriptions = []
+  self.subscribers = []
 
   self.newUser = {}
 
@@ -39,6 +44,22 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
     })
   }
 
+  self.listenForTorrents = function (mtID) {
+    mtos.swarm.subscribe('/' + mtID)
+    .on('data', function (message) {
+      var parsed = JSON.parse(message)
+      if (parsed && parsed.magnetUri) {
+        mtos.torrentClient.add(parsed.magnetUri, function (torrent) {
+          self.read(torrent)
+          .then(function (message) {
+            console.log('received', message)
+            self.messages.push(message)
+          })
+        })
+      }
+    })
+  }
+
   self.unlockUser = function (mtID) {
     var options = {
       mtID: mtID,
@@ -49,6 +70,10 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
       if (usableKeys.privateKey !== null) {
         self.users[mtID].keypair.privateKey = usableKeys.privateKey
         self.users[mtID].keypair.publicKey = usableKeys.publicKey
+        if (!self.activeUser) {
+          self.activeUser = mtID
+        }
+        self.authenticatedUsers.push(self.users[mtID])
         delete self.passphrases[mtID]
       } else {
         window.alert('incorrect passphrase')
@@ -65,12 +90,10 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
 
   self.save = function () {
 
-    var user = self.users[Object.keys(self.users)[0]]
-
     var options = {
       encrypt: true,
-      privateKey: user.keypair.privateKey,
-      publicKey: user.keypair.publicKey
+      privateKey: self.users[self.activeUser].keypair.privateKey,
+      publicKey: self.users[self.activeUser].keypair.publicKey
     }
     var content = JSON.stringify({
       content: self.data,
@@ -101,7 +124,9 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
     })
   }
 
-  self.createArchive = $localStorageArchive.exportData
+  self.createArchive = function (object) {
+    return $localStorageArchive.exportZip(object)
+  }
 
   $scope.$watch('debug.backupFile', function (file) {
     if (file !== undefined) {

@@ -24,15 +24,14 @@
     </li>
   </ul>
 
-
   <form>
-    <input ng-model="debug.newUser.username" placeholder="User Name" required />
-    <input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
-    <button ng-click="debug.addUser()">Add User</button>
+    Active user: 
+    <select ng-model="debug.activeUser" ng-options="user.mtID as user.username for user in debug.authenticatedUsers"></select>
   </form>
 
   <ul ng-if="debug.users">
     <li ng-repeat="user in debug.users">
+      <button ng-if="user.keypair.publicKey" ng-click="debug.createArchive({user: {mtID: user.mtID, username: user.username, publicKeyString: user.keypair.publicKeyString, publicKeyFingerprint: user.keypair.publicKeyFingerprint}})">Export</button>
       <p>{{user.username}}</p>
       <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
       <form ng-if="!user.keypair.publicKey">
@@ -41,6 +40,12 @@
       </form>
     </li>
   </ul>
+
+  <form>
+    <input ng-model="debug.newUser.username" placeholder="User Name" required />
+    <input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
+    <button ng-click="debug.addUser()">Add User</button>
+  </form>
 
   <h2>Backup Management</h2>
 
