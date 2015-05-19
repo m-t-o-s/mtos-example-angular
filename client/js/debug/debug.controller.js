@@ -72,9 +72,12 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
       privateKey: user.keypair.privateKey,
       publicKey: user.keypair.publicKey
     }
-    var content = {
-      content: self.data
-    }
+    var content = JSON.stringify({
+      content: self.data,
+      metadata: {
+        foo: 'bar'
+      }
+    })
     console.log('calling create', content, options)
     return self.mtos.createContent(content, options)
     .then(function (torrent) {
@@ -92,7 +95,7 @@ var debug = function ($scope, mtos, version, mtosBroadcastService, mtosKeyServic
     return mtos.readContent(torrent, options)
     .then(function (content) {
       $scope.$apply(function () {
-        self.parsedData = JSON.parse(JSON.parse(content))
+        self.parsedData = JSON.parse(content)
         console.log('received content', self.parsedData)
       })
     })
