@@ -11,8 +11,9 @@ angular.module('mtosClient', [
 ])
 
 .constant('version', require('../../package.json').version)
+.constant('configuration', require('../../config.json'))
 
-.run(function (mtosKeyService) {
+.run(function (configuration, mtosKeyService, mtos) {
   mtosKeyService.loadServerKey()
   mtosKeyService.loadUserKeys()
 })
