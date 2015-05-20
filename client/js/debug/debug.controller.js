@@ -143,7 +143,7 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
     return $localStorageArchive.exportZip(object)
   }
 
-  $scope.$watch('debug.backupFile', function (file) {
+  $scope.$watch('db.backupFile', function (file) {
     if (file !== undefined) {
       $localStorageArchive.loadLocalStorageData(file)
     }
@@ -162,7 +162,8 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
     })
   }
 
-  $scope.$watch('debug.addThisSubscriber', function (file) {
+  $scope.$watch('db.addThisSubscriber', function (file) {
+    console.log('adding subscriber', file)
     if (file !== undefined) {
       $localStorageArchive.unzipData(file)
       .then(self.addSubscriber)
