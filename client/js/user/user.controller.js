@@ -31,13 +31,13 @@ var user = function ($scope, mtos, version, configuration, mtosBroadcastService,
 
   self.newUser = {}
 
-  mtosBroadcastService.listen('loaded users', function () {
-    self.users = mtos.users
+  mtosBroadcastService.listen('loaded identities', function () {
+    self.identities = mtos.identities
   })
-  if (mtos.users) {
-    self.users = mtos.users
+  if (mtos.identities) {
+    self.identities = mtos.identities
   } else {
-    self.users = {}
+    self.identities = {}
   }
 
   self.addUser = function () {
@@ -49,7 +49,7 @@ var user = function ($scope, mtos, version, configuration, mtosBroadcastService,
     .then(function (keypair) {
       $scope.$apply(function () {
         var mtID = keypair.publicKeyFingerprint.replace(/\:/g, '')
-        self.users[mtID] = {
+        self.identities[mtID] = {
           username: options.username,
           mtID: mtID,
           passphrase: options.passphrase,
@@ -76,6 +76,7 @@ var user = function ($scope, mtos, version, configuration, mtosBroadcastService,
   }
 
   self.unlockUser = function (mtID) {
+    console.log('unlocking', mtID)
     var options = {
       mtID: mtID,
       passphrase: self.passphrases[mtID]
@@ -83,12 +84,12 @@ var user = function ($scope, mtos, version, configuration, mtosBroadcastService,
     mtosKeyService.unlockUserKey(options)
     .then(function (usableKeys) {
       if (usableKeys.privateKey !== null) {
-        self.users[mtID].keypair.privateKey = usableKeys.privateKey
-        self.users[mtID].keypair.publicKey = usableKeys.publicKey
+        self.identities[mtID].keypair.privateKey = usableKeys.privateKey
+        self.identities[mtID].keypair.publicKey = usableKeys.publicKey
         if (!self.activeUser) {
           self.activeUser = mtID
         }
-        self.authenticatedUsers.push(self.users[mtID])
+        self.authenticatedUsers.push(self.identities[mtID])
         delete self.passphrases[mtID]
       } else {
         window.alert('incorrect passphrase')
@@ -108,11 +109,11 @@ var user = function ($scope, mtos, version, configuration, mtosBroadcastService,
     if (self.subscribers[self.messageTarget]) {
       publicKeyString = self.subscribers[self.messageTarget].publicKeyString
     } else {
-      publicKeyString = self.users[self.messageTarget].keypair.publicKeyString
+      publicKeyString = self.identities[self.messageTarget].keypair.publicKeyString
     }
     var options = {
       encrypt: true,
-      privateKey: self.users[self.activeUser].keypair.privateKey,
+      privateKey: self.identities[self.activeUser].keypair.privateKey,
       publicKey: mtos.publicKeyFromString(publicKeyString)
     }
     if (configuration.trackers) {
@@ -135,7 +136,7 @@ var user = function ($scope, mtos, version, configuration, mtosBroadcastService,
 
   self.read = function (torrent) {
     console.log('sending torrent to mtos for reading')
-    var user = self.users[Object.keys(self.users)[0]]
+    var user = self.identities[Object.keys(self.identities)[0]]
     var options = {
       privateKey: user.keypair.privateKey,
       publicKey: user.keypair.publicKey

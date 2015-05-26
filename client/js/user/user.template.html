@@ -1,8 +1,6 @@
 <div class="user">
 
-  <h2 ng-if="user.keypair">Server Key: {{user.keypair.publicKeyFingerprint | emojiprint}}</h2>
-
-  <div class="identites">
+  <div class="identities">
     <h2>Your Identities</h2>
 
     <form>
@@ -11,19 +9,19 @@
       <button ng-click="user.addUser()">Add User</button>
     </form>
 
-    <ul ng-if="user.users">
-      <li ng-repeat="user in user.users">
-        <button ng-if="user.keypair.publicKey" ng-click="user.createArchive({user: {mtID: user.mtID, username: user.username, publicKeyString: user.keypair.publicKeyString, publicKeyFingerprint: user.keypair.publicKeyFingerprint}})">Export</button>
-        <p>{{user.username}}</p>
-        <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
-        <form ng-if="!user.keypair.publicKey">
-          <input ng-model="user.passphrases[user.mtID]" />
-          <button ng-click="user.unlockUser(user.mtID)">Unlock</button>
+    <ul ng-if="user.identities">
+      <li ng-repeat="id in user.identities">
+        <button ng-if="id.keypair.publicKey" ng-click="id.createArchive({id: {mtID: id.mtID, username: id.username, publicKeyString: id.keypair.publicKeyString, publicKeyFingerprint: id.keypair.publicKeyFingerprint}})">Export</button>
+        <p>{{id.username}}</p>
+        <p>{{id.keypair.publicKeyFingerprint | emojiprint}}</p>
+        <form ng-if="!id.keypair.publicKey">
+          <input ng-model="id.passphrases[id.mtID]" />
+          <button ng-click="user.unlockUser(id.mtID)">Unlock</button>
         </form>
       </li>
     </ul>
     <form>
-      Active user:
+      Active id:
       <select ng-model="user.activeUser" ng-options="user.mtID as user.username for user in user.authenticatedUsers"></select>
     </form>
   </div>
@@ -36,7 +34,7 @@
         <br />
         <select ng-model="user.messageTarget">
           <option ng-repeat="(mtID, user) in user.subscribers" value={{mtID}}>{{user.username}}</option>
-          <option ng-if="user.activeUser" value="{{user.activeUser}}">{{user.users[user.activeUser].username}}</option>
+          <option ng-if="user.activeUser" value="{{user.activeUser}}">{{user.identities[user.activeUser].username}}</option>
         </select>
         <button ng-click="user.sendMessage()">Send Message</button>
       </form>
