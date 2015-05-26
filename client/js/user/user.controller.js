@@ -1,8 +1,8 @@
 'use strict'
 
-var debug = function ($scope, mtos, version, configuration, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
+var user = function ($scope, mtos, version, configuration, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
 
-  window.db = this
+  window.user = this
 
   var self = this
 
@@ -18,7 +18,7 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
 
   $scope.$watch
 
-  $scope.$watch('db.subscriptions', function(subscriptions) {
+  $scope.$watch('user.subscriptions', function(subscriptions) {
     if self.connections
   })
  */
@@ -153,7 +153,7 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
     return $localStorageArchive.exportZip(object)
   }
 
-  $scope.$watch('db.backupFile', function (file) {
+  $scope.$watch('user.backupFile', function (file) {
     if (file !== undefined) {
       $localStorageArchive.loadLocalStorageData(file)
     }
@@ -172,7 +172,7 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
     })
   }
 
-  $scope.$watch('db.addThisSubscriber', function (file) {
+  $scope.$watch('user.addThisSubscriber', function (file) {
     console.log('adding subscriber', file)
     if (file !== undefined) {
       $localStorageArchive.unzipData(file)
@@ -182,4 +182,4 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
 
 }
 
-module.exports = debug
+module.exports = user

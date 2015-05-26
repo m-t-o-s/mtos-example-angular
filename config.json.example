@@ -1,0 +1,10 @@
+{
+  "hubs": [
+    "http://hub.mtos.co"
+  ],
+  "trackers": [
+    [
+      "ws://tracker.mtos.co"
+    ]
+  ]
+}

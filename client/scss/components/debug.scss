@@ -1,12 +1,12 @@
-.debug {
+.db {
   @include span-columns(12);
 }
 
-.debug-data {
+.db-data {
   @include row();
 }
 
-.debug-input,
-.debug-output {
+.db-input,
+.db-output {
   @include span-columns(6);
 }

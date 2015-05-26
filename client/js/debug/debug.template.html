@@ -1,52 +1,80 @@
-<div class="debug">
+<div class="db">
 
-  <h2 ng-if="debug.keypair">Server Key: {{debug.keypair.publicKeyFingerprint | emojiprint}}</h2>
+  <h2 ng-if="db.keypair">Server Key: {{db.keypair.publicKeyFingerprint | emojiprint}}</h2>
 
-  <div class="debug-data">
-    <div class="debug-input">
+  <div class="identites">
+    <h2>Your Identities</h2>
+
+    <form>
+      <input ng-model="db.newUser.username" placeholder="User Name" required />
+      <input ng-model="db.newUser.passphrase" placeholder="Pass Phrase" required />
+      <button ng-click="db.addUser()">Add User</button>
+    </form>
+
+    <ul ng-if="db.users">
+      <li ng-repeat="user in db.users">
+        <button ng-if="user.keypair.publicKey" ng-click="db.createArchive({user: {mtID: user.mtID, username: user.username, publicKeyString: user.keypair.publicKeyString, publicKeyFingerprint: user.keypair.publicKeyFingerprint}})">Export</button>
+        <p>{{user.username}}</p>
+        <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
+        <form ng-if="!user.keypair.publicKey">
+          <input ng-model="db.passphrases[user.mtID]" />
+          <button ng-click="db.unlockUser(user.mtID)">Unlock</button>
+        </form>
+      </li>
+    </ul>
+    <form>
+      Active user:
+      <select ng-model="db.activeUser" ng-options="user.mtID as user.username for user in db.authenticatedUsers"></select>
+    </form>
+  </div>
+
+  <div class="db-data">
+    <h2>Send a Message</h2>
+    <div class="db-input">
       <form>
-        <textarea ng-model="debug.data"></textarea>
-        <button ng-click="debug.save()">save</button>
+        <textarea ng-model="db.data"></textarea>
+        <br />
+        <select ng-model="db.messageTarget">
+          <option ng-repeat="(mtID, user) in db.subscribers" value={{mtID}}>{{user.username}}</option>
+          <option ng-if="db.activeUser" value="{{db.activeUser}}">{{db.users[db.activeUser].username}}</option>
+        </select>
+        <button ng-click="db.sendMessage()">Send Message</button>
       </form>
     </div>
-    <div class="debug-output">
-      <pre>{{debug.parsedData | json}}</pre>
+    <div class="db-output">
+      <pre>{{db.parsedData | json}}</pre>
     </div>
   </div>
-  <ul>
-    <li ng-repeat="torrent in debug.webTorrent.client.torrents">
-      <p>{{torrent.name}}</p>
-      <ul>
-        <li ng-repeat="file in torrent.files">
-          <p>{{file.name}}</p>
-        </li>
-      </ul>
-    </li>
-  </ul>
 
+  <div class="pubsub">
+    <h2>Your Subscribers</h2>
+      Add Subscriber:
+    <input type="file" fileread="db.addThisSubscriber" />
+    <ul>
+      <li ng-repeat="user in db.subscribers">
+        <button ng-if="user.keypair.publicKey" ng-click="db.createArchive({user: {mtID: user.mtID, username: user.username, publicKeyString: user.keypair.publicKeyString, publicKeyFingerprint: user.keypair.publicKeyFingerprint}})">Export</button>
+        <p>{{user.username}}</p>
+        <p>{{user.publicKeyFingerprint | emojiprint}}</p>
+      </li>
+    </ul>
+  </div>
 
-  <form>
-    <input ng-model="debug.newUser.username" placeholder="User Name" required />
-    <input ng-model="debug.newUser.passphrase" placeholder="Pass Phrase" required />
-    <button ng-click="debug.addUser()">Add User</button>
-  </form>
+  <div class="db-backups">
+    <h2>Backup Management</h2>
 
-  <ul ng-if="debug.users">
-    <li ng-repeat="user in debug.users">
-      <p>{{user.username}}</p>
-      <p>{{user.keypair.publicKeyFingerprint | emojiprint}}</p>
-      <form ng-if="!user.keypair.publicKey">
-        <input ng-model="debug.passphrases[user.mtID]" />
-        <button ng-click="debug.unlockUser(user.mtID)">Unlock</button>
-      </form>
-    </li>
-  </ul>
-
-  <h2>Backup Management</h2>
-
-  <button ng-click="debug.createArchive()">Create Archive</button>
-
-  <br />
-
-  <input type="file" fileread="debug.backupFile" />
+    <button ng-click="db.createArchive()">Create Archive</button>
+    <br />
+    <input type="file" fileread="db.backupFile" />
+  </div>
 </div>
+
+<ul>
+  <li ng-repeat="torrent in db.webTorrent.client.torrents">
+    <p>{{torrent.name}}</p>
+    <ul>
+      <li ng-repeat="file in torrent.files">
+        <p>{{file.name}}</p>
+      </li>
+    </ul>
+  </li>
+</ul>

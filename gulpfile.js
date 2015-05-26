@@ -235,18 +235,18 @@ gulp.task('watch', ['assets', 'favicon', 'forge', 'templates', 'sass', 'browseri
   // --------------------------
   // watch:sass
   // --------------------------
-  gulp.watch('./client/scss/**/*.scss', ['reload-sass'])
+  gulp.watch('./client/scss/**/*.scss', { interval: 1000 }, ['reload-sass'])
 
   // --------------------------
   // watch:js
   // --------------------------
-  gulp.watch('./client/js/**/*.js', ['standard', 'reload-js'])
-  gulp.watch('./mtos/**/*.js', ['reload-js'])
+  gulp.watch('./client/js/**/*.js', { interval: 1000 }, ['standard', 'reload-js'])
+  gulp.watch(['./mtos/**/*.js', '!./mtos/node_modules'], { interval: 1000 }, ['reload-js'])
 
   // --------------------------
   // watch:html
   // --------------------------
-  gulp.watch('./**/*.html', ['reload-templates'])
+  gulp.watch('./client/**/*.html', { interval: 1000 }, ['reload-templates'])
 
   gutil.log(gutil.colors.bgGreen('Watching for changes...'))
 })

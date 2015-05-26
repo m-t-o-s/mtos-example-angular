@@ -3,29 +3,32 @@
 var angular = require('angular')
 
 angular.module('mtosClient', [
+  require('./user').name,
   require('./modules/localStorage.factory').name,
   require('./modules/localStorage-archive.service').name,
   require('./modules/mtos').name,
   require('./modules/emojiprint.filter').name,
-  require('angular-ui-router')
+  require('angular-ui-router'),
+  require('./debug').name
 ])
 
 .constant('version', require('../../package.json').version)
+.constant('configuration', require('../../config.json'))
 
-.run(function (mtosKeyService) {
+.run(function (configuration, mtosKeyService, mtos) {
   mtosKeyService.loadServerKey()
   mtosKeyService.loadUserKeys()
 })
 
-.controller('DebugController', require('./debug/debug.controller'))
+.controller('appController', require('./common/app.controller'))
 
 .config(function ($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/debug')
+  $urlRouterProvider.otherwise('/user')
   $stateProvider
-  .state('debug', {
-    url: '/debug',
-    controller: 'DebugController',
-    controllerAs: 'debug',
-    templateUrl: 'js/debug/debug.template.html'
+  .state('default', {
+    abastract: true,
+    controller: 'appController',
+    controllerAs: 'app',
+    templateUrl: 'js/common/app.template.html'
   })
 })
