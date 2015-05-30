@@ -7,7 +7,7 @@ function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) 
     .then(function (serverKey) {
       if (serverKey.privateKeyString === undefined) {
         console.log('mtos generating server key')
-        return mtos.newServerKey()
+        return mtos.generateServerKey()
         .then(function (keypair) {
           console.log('mtos generated server key', keypair)
           var storedKey = {
