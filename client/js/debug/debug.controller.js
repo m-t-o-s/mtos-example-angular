@@ -110,26 +110,29 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
     } else {
       publicKeyString = self.users[self.messageTarget].keypair.publicKeyString
     }
-    var options = {
-      encrypt: true,
-      privateKey: self.users[self.activeUser].keypair.privateKey,
-      publicKey: mtos.publicKeyFromString(publicKeyString)
-    }
-    if (configuration.trackers) {
-      options.torrentOptions = {
-        announceList: configuration.trackers
+    mtos.publicKeyFromString(publicKeyString)
+    .then(function (publicKey) {
+      var options = {
+        encrypt: true,
+        privateKey: self.users[self.activeUser].keypair.privateKey,
+        publicKey: publicKey
       }
-    }
-    var content = JSON.stringify({
-      content: self.data,
-      metadata: {
-        foo: 'bar'
+      if (configuration.trackers) {
+        options.torrentOptions = {
+          announceList: configuration.trackers
+        }
       }
-    })
-    console.log('calling create', content, options)
-    return self.mtos.createContent(content, options)
-    .then(function (torrent) {
-      return self.read(torrent)
+      var content = JSON.stringify({
+        content: self.data,
+        metadata: {
+          foo: 'bar'
+        }
+      })
+      console.log('calling create', content, options)
+      return self.mtos.createContent(content, options)
+      .then(function (torrent) {
+        return self.read(torrent)
+      })
     })
   }
 
