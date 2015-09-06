@@ -1,5 +1,13 @@
+$base-font-color: black;
+$base-background-color: white;
+
 $base-border-color: gainsboro !default;
 $base-border-radius: 3px !default;
 $action-color: #477DCA !default;
 $dark-gray: #333 !default;
 $large-screen: em(860) !default;
+
+$drawer-background-color: black;
+$drawer-item-background-color: linear-gradient(135deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+$drawer-item-background-color-hover: linear-gradient(135deg, rgba(0,0,0,0) 0%,rgba(75,20,20,0.65) 100%);
+$drawer-item-color: white;
