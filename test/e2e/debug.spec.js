@@ -3,8 +3,8 @@
 
 describe('Debug View', function () {
   it('should have a title', function () {
-      browser.get('/#/debug')
+    browser.get('/#/debug')
 
-      expect(browser.getTitle()).toEqual('mtos')
-    })
+    expect(browser.getTitle()).toEqual('mtos')
+  })
 })
