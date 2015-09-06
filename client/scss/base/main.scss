@@ -1,6 +1,16 @@
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Roboto, $helvetica;
-  margin-top: 1.5 * $navigation-height;
 }
 
 .outer-container {
