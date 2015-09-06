@@ -1,7 +1,7 @@
 /* Navigation Menu - Background */
 .navigation {
   /* critical sizing and position styles */
-  width: 100%;
+  width: $drawer-width;
   height: 100%;
   position: fixed;
   top: 0;
@@ -18,7 +18,7 @@
 /* Navigation Menu - List items */
 .nav-item {
   /* non-critical appearance styles */
-  width: 200px;
+  width: $drawer-width;
   border-top: 1px solid #111;
   border-bottom: 1px solid #000;
 }
