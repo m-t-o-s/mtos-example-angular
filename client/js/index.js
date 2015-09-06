@@ -3,7 +3,6 @@
 var angular = require('angular')
 
 angular.module('mtosClient', [
-  require('./user').name,
   require('./modules/localStorage.factory').name,
   require('./modules/localStorage-archive.service').name,
   require('./modules/mtos').name,
@@ -23,7 +22,7 @@ angular.module('mtosClient', [
 .controller('appController', require('./common/app.controller'))
 
 .config(function ($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/user')
+  $urlRouterProvider.otherwise('/debug')
   $stateProvider
   .state('default', {
     abastract: true,
