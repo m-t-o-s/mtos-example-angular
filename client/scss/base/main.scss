@@ -2,15 +2,21 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  min-height: 100%;
 }
 *, *:before, *:after {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
 }
+html, body {
+  min-height: 100%;
+  height:100%;
+}
 
 body {
   font-family: Roboto, $helvetica;
+  background-color: $base-background-color;
 }
 
 .outer-container {
