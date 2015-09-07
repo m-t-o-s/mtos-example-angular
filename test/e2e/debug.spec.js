@@ -23,6 +23,8 @@ describe('Debug View', function () {
     .first().element(by.binding('user.username'))
     .getText().then(function (text) {
       expect(text).toBe('alice')
+    })
+    .then(function () {
       done()
     })
 
