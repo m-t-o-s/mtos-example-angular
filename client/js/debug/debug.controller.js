@@ -1,7 +1,6 @@
 'use strict'
 
 var debug = function ($scope, mtos, version, configuration, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
-
   window.db = this
 
   var self = this
@@ -131,6 +130,9 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       console.log('calling create', content, options)
       return self.mtos.createContent(content, options)
       .then(function (torrent) {
+        $scope.$apply(function () {
+          self.infoHash = torrent.infoHash
+        })
         return self.read(torrent)
       })
     })
@@ -182,7 +184,6 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       .then(self.addSubscriber)
     }
   })
-
 }
 
 module.exports = debug
