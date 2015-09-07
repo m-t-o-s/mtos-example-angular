@@ -2,7 +2,6 @@
 
 function emojiprint () {
   return function (fingerprint) {
-
     // all hail http://www.windytan.com/2014/10/visualizing-hex-bytes-with-unicode-emoji.htmla
     //          https://gist.github.com/windytan/7910910
 
@@ -13,7 +12,6 @@ function emojiprint () {
     }
 
     return fingerprint.split(':').map(replaceWithEmoji).join('')
-
   }
 }
 
