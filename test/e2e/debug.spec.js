@@ -27,16 +27,18 @@ describe('Debug View', function () {
     })
   })
 
+  var browserBob
+  var elementBob
   it('should load bob\'s credentials from a zip file', function (done) {
     var fileToUpload = '../test-credentials/bob.zip'
     var absolutePath = path.resolve(__dirname, fileToUpload)
 
-    var browserBob = browser.forkNewDriverInstance(true)
-    var elementBob = browserBob.element
+    browserBob = browser.forkNewDriverInstance(true)
+    elementBob = browserBob.element
 
     var fileInput = elementBob(by.css('.db-backups > input[type="file"]'))
-    fileInput.sendKeys(absolutePath)
 
+    fileInput.sendKeys(absolutePath)
     elementBob.all(by.repeater('user in db.users'))
     .first().element(by.binding('user.username'))
     .getText().then(function (text) {
@@ -47,11 +49,15 @@ describe('Debug View', function () {
     })
   })
 
+  var browserEve
+  var elementEve
   it('should load eve\'s credentials from a zip file', function (done) {
     var fileToUpload = '../test-credentials/eve.zip'
     var absolutePath = path.resolve(__dirname, fileToUpload)
-    var browserEve = browser.forkNewDriverInstance(true)
-    var elementEve = browserEve.element
+
+    browserEve = browser.forkNewDriverInstance(true)
+    elementEve = browserEve.element
+
     var fileInput = elementEve(by.css('.db-backups > input[type="file"]'))
 
     fileInput.sendKeys(absolutePath)
@@ -73,6 +79,8 @@ describe('Debug View', function () {
       return aliceUnlock.element(by.css('[ng-click="db.unlockUser(user.mtID)"]')).click()
     })
     .then(function () {
+      var exportButton = aliceUnlock.element(by.css('[ng-click="db.createArchive({user: {mtID: user.mtID, username: user.username, publicKeyString: user.keypair.publicKeyString, publicKeyFingerprint: user.keypair.publicKeyFingerprint}})"]'))
+      expect(exportButton.isPresent()).toBe(true)
       done()
     })
   })
@@ -82,20 +90,37 @@ describe('Debug View', function () {
     var messageInput = element(by.model('db.data'))
     var messageSend = element(by.css('[ng-click="db.sendMessage()"]'))
 
-    // I don't know why standard complains about aliceInfoHash not being used below
-    // but it does :(
-    console.log(aliceInfoHash)
-
     messageInput.clear()
     messageInput.sendKeys('this is a secret message from alice to bob')
     messageSend.click()
     .then(function () {
       element(by.binding('db.infoHash')).getText()
       .then(function (hash) {
-        console.info('hash', hash)
         aliceInfoHash = hash
+        expect(aliceInfoHash.length).toBe(40)
         done()
       })
     })
+  })
+
+  it('should unlock bob\'s privateKey', function (done) {
+    var bobUnlock = elementBob.all(by.repeater('user in db.users')).first()
+    bobUnlock.element(by.model('db.passphrases[user.mtID]'))
+    .sendKeys('bob')
+    .then(function (text) {
+      return bobUnlock.element(by.css('[ng-click="db.unlockUser(user.mtID)"]')).click()
+    })
+    .then(function () {
+      var exportButton = bobUnlock.element(by.css('[ng-click="db.createArchive({user: {mtID: user.mtID, username: user.username, publicKeyString: user.keypair.publicKeyString, publicKeyFingerprint: user.keypair.publicKeyFingerprint}})"]'))
+      expect(exportButton.isPresent()).toBe(true)
+      done()
+    })
+  })
+
+  it('should let bob load and decrypt a message from alice', function (done) {
+    // I don't know why standard complains about aliceInfoHash not being used below
+    // but it does :(
+    console.log(aliceInfoHash)
+    done()
   })
 })
