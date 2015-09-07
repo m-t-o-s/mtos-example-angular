@@ -76,4 +76,32 @@ describe('Debug View', function () {
 
   })
 
+  it('should unlock alice\'s privateKey', function (done) {
+    var aliceUnlock = element.all(by.repeater('user in db.users')).first()
+    aliceUnlock.element(by.model('db.passphrases[user.mtID]'))
+    .sendKeys('alice')
+    .then(function (text) {
+      return aliceUnlock.element(by.css('[ng-click="db.unlockUser(user.mtID)"]')).click()
+    })
+    .then(function () {
+      done()
+    })
+  })
+
+  var aliceInfoHash
+  it('should allow alice to encrypt a message for bob', function (done) {
+    var messageInput = element(by.model('db.data'))
+    var messageSend = element(by.css('[ng-click="db.sendMessage()"]'))
+    messageInput.clear();
+    messageInput.sendKeys('this is a secret message from alice to bob');
+    messageSend.click()
+    .then(function () {
+      element(by.binding('db.infoHash')).getText()
+      .then(function(hash) {
+        console.info('hash', hash)
+        aliceInfoHash = hash
+        done()
+      })
+    })
+  })
 })
