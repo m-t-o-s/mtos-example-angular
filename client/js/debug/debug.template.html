@@ -43,6 +43,18 @@
     </div>
     <div class="db-output">
       <pre>{{db.infoHash}}</pre>
+    </div>
+  </div>
+
+  <div class="db-data">
+    <h2>Receive a Message</h2>
+    <div class="db-input">
+      <form>
+        <input ng-model="db.receiveInfoHash"></input>
+        <button ng-click="db.getTorrent()">Read Message</button>
+      </form>
+    </div>
+    <div class="db-output">
       <pre>{{db.parsedData | json}}</pre>
     </div>
   </div>

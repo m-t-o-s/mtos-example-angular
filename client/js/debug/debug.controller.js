@@ -132,9 +132,18 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       .then(function (torrent) {
         $scope.$apply(function () {
           self.infoHash = torrent.infoHash
+          self.receiveInfoHash = self.infoHash
         })
-        return self.read(torrent)
       })
+    })
+  }
+
+  self.getTorrent = function () {
+    console.log('get torrent clicked')
+    return mtos.downloadTorrent(self.receiveInfoHash)
+    .then(function (torrent) {
+      console.log('downloading', torrent)
+      return self.read(torrent)
     })
   }
 

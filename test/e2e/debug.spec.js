@@ -118,9 +118,8 @@ describe('Debug View', function () {
   })
 
   it('should let bob load and decrypt a message from alice', function (done) {
-    // I don't know why standard complains about aliceInfoHash not being used below
-    // but it does :(
-    console.log(aliceInfoHash)
+    elementBob(by.model('db.receiveInfoHash')).sendKeys(aliceInfoHash)
+    elementBob(by.css('[ng-click="db.getTorrent()"]')).click()
     done()
   })
 })
