@@ -131,7 +131,7 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       return self.mtos.createContent(content, options)
       .then(function (torrent) {
         $scope.$apply(function () {
-          self.infoHash = torrent.infoHash
+          self.infoHash = torrent.magnetURI
           self.receiveInfoHash = self.infoHash
         })
       })
@@ -139,6 +139,13 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
   }
 
   self.getTorrent = function () {
+    console.log('configuration', configuration)
+    var options = {}
+    if (configuration.trackers) {
+      options.torrentOptions = {
+        announceList: configuration.trackers
+      }
+    }
     console.log('get torrent clicked')
     return mtos.downloadTorrent(self.receiveInfoHash)
     .then(function (torrent) {
