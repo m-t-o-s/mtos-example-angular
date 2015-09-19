@@ -196,6 +196,7 @@ gulp.task('browser-sync', function () {
     server: {
       baseDir: './build'
     },
+    ghostMode: false,
     port: process.env.PORT || 3000
   })
 })
@@ -231,7 +232,6 @@ gulp.task('test', tasks.test)
 // DEV/WATCH TASK
 // --------------------------
 gulp.task('watch', ['assets', 'favicon', 'forge', 'templates', 'sass', 'browserify', 'browser-sync'], function () {
-
   // --------------------------
   // watch:sass
   // --------------------------

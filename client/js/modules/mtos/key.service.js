@@ -1,5 +1,4 @@
 function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) {
-
   var service = {}
 
   service.loadServerKey = function () {

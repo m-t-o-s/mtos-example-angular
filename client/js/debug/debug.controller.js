@@ -1,7 +1,6 @@
 'use strict'
 
 var debug = function ($scope, mtos, version, configuration, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
-
   window.db = this
 
   var self = this
@@ -119,34 +118,47 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       }
       if (configuration.trackers) {
         options.torrentOptions = {
-          announceList: configuration.trackers
+          announce: configuration.trackers
         }
       }
-      var content = JSON.stringify({
+      var content = {
         content: self.data,
         metadata: {
           foo: 'bar'
         }
-      })
+      }
       console.log('calling create', content, options)
       return self.mtos.createContent(content, options)
       .then(function (torrent) {
-        return self.read(torrent)
+        $scope.$apply(function () {
+          self.infoHash = torrent.magnetURI
+          self.receiveInfoHash = self.infoHash
+        })
       })
     })
   }
 
-  self.read = function (torrent) {
+  self.getTorrent = function () {
+    return self.read(self.receiveInfoHash)
+  }
+
+  self.read = function (torrentID) {
     console.log('sending torrent to mtos for reading')
     var user = self.users[Object.keys(self.users)[0]]
-    var options = {
-      privateKey: user.keypair.privateKey,
-      publicKey: user.keypair.publicKey
-    }
-    return mtos.readContent(torrent, options)
+    var publicKeyString = self.subscribers[self.messageTarget].publicKeyString
+    var options
+    mtos.publicKeyFromString(publicKeyString)
+    .then(function (publicKey) {
+      console.log('public key for bob', publicKey)
+      options = {
+        privateKey: user.keypair.privateKey,
+        publicKey: publicKey
+      }
+      return mtos.readContent(torrentID, options)
+    })
     .then(function (content) {
       $scope.$apply(function () {
-        self.parsedData = JSON.parse(content)
+        self.parsedData = content
         console.log('received content', self.parsedData)
       })
     })
@@ -182,7 +194,6 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       .then(self.addSubscriber)
     }
   })
-
 }
 
 module.exports = debug
