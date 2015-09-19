@@ -97,7 +97,7 @@ describe('Debug View', function () {
       element(by.binding('db.infoHash')).getText()
       .then(function (hash) {
         aliceInfoHash = hash
-        expect(aliceInfoHash.length).toBe(40)
+        expect(aliceInfoHash.length).toBe(105)
         done()
       })
     })
@@ -120,6 +120,12 @@ describe('Debug View', function () {
   it('should let bob load and decrypt a message from alice', function (done) {
     elementBob(by.model('db.receiveInfoHash')).sendKeys(aliceInfoHash)
     elementBob(by.css('[ng-click="db.getTorrent()"]')).click()
+    /*
+    browserBob.manage().logs().get('browser').then(function (browserLog) {
+      console.log('log: ' + require('util').inspect(browserLog))
+    })
+    browserBob.pause()
+    */
     done()
   })
 })
