@@ -118,7 +118,7 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
       }
       if (configuration.trackers) {
         options.torrentOptions = {
-          announceList: configuration.trackers
+          announce: configuration.trackers
         }
       }
       var content = JSON.stringify({
@@ -139,32 +139,20 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
   }
 
   self.getTorrent = function () {
-    console.log('configuration', configuration)
-    var options = {}
-    if (configuration.trackers) {
-      options.torrentOptions = {
-        announceList: configuration.trackers
-      }
-    }
-    console.log('get torrent clicked')
-    return mtos.downloadTorrent(self.receiveInfoHash)
-    .then(function (torrent) {
-      console.log('downloading', torrent)
-      return self.read(torrent)
-    })
+    return self.read(self.receiveInfoHash)
   }
 
-  self.read = function (torrent) {
+  self.read = function (torrentID) {
     console.log('sending torrent to mtos for reading')
     var user = self.users[Object.keys(self.users)[0]]
     var options = {
       privateKey: user.keypair.privateKey,
       publicKey: user.keypair.publicKey
     }
-    return mtos.readContent(torrent, options)
+    return mtos.readContent(torrentID, options)
     .then(function (content) {
       $scope.$apply(function () {
-        self.parsedData = JSON.parse(content)
+        self.parsedData = content
         console.log('received content', self.parsedData)
       })
     })
