@@ -154,6 +154,11 @@ var debug = function ($scope, mtos, version, configuration, mtosBroadcastService
         privateKey: user.keypair.privateKey,
         publicKey: publicKey
       }
+      if (configuration.trackers) {
+        options.torrentOptions = {
+          announce: configuration.trackers
+        }
+      }
       return mtos.readContent(torrentID, options)
     })
     .then(function (content) {
