@@ -9,6 +9,8 @@ import configuration from '../../config.json'
 
 import AppController from './app.controller'
 
+import subscriptions from './subscriptions'
+
 import emojiprint from './emojiprint'
 
 angular.module('mtosClient', [
@@ -17,6 +19,7 @@ angular.module('mtosClient', [
   require('./modules/localStorage.factory').name,
   require('./modules/localStorage-archive.service').name,
   require('./mtos').name,
+  subscriptions,
   emojiprint,
   require('./debug').name
 ])

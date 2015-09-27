@@ -5,6 +5,7 @@ SOURCE_DIR = src
 # Binaries
 BROWSERIFY = ./node_modules/.bin/browserify
 WATCHIFY = ./node_modules/.bin/watchify
+BROWSERIFY_OPTS = --transform babelify --transform browserify-ngannotate
 SASS = ./node_modules/.bin/node-sass
 NODEMON = ./node_modules/.bin/nodemon
 BROWSER_SYNC = ./node_modules/.bin/browser-sync
@@ -39,11 +40,11 @@ css:
 watch: clean static css
 	$(NODEMON) --watch $(SOURCE_DIR) -e html --exec "make static" &
 	$(SASS) --watch --source-map-embed $(SOURCE_DIR)/scss/style.scss --output $(TARGET_DIR)/css &
-	$(WATCHIFY) --transform es6ify --transform browserify-ngannotate $(SOURCE_DIR)/app/index.js -o $(TARGET_DIR)/app/mtos-client-angular.js &
+	$(WATCHIFY) --debug $(BROWSERIFY_OPTS) $(SOURCE_DIR)/app/index.js -o $(TARGET_DIR)/app/mtos-client-angular.js &
 	$(BROWSER_SYNC) start --files "$(TARGET_DIR)/**/*" --server $(TARGET_DIR)
 
 $(TARGET_DIR): lint clean static css
-	$(BROWSERIFY) --transform es6ify --transform browserify-ngannotate $(SOURCE_DIR)/app/index.js > $(TARGET_DIR)/app/mtos-client-angular.js &
+	$(BROWSERIFY) $(BROWSERIFY_OPTS) $(SOURCE_DIR)/app/index.js > $(TARGET_DIR)/app/mtos-client-angular.js &
 
 node_modules:
 	$(NPM) install
