@@ -4,6 +4,7 @@ module.exports = window.angular.module('mtosDebug', [
   require('angular-ui-router')
 ])
   .config(function ($stateProvider) {
+    'ngInject'
     $stateProvider
     .state('debug', {
       parent: 'default',

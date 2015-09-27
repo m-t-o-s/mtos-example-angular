@@ -1,4 +1,5 @@
 function $localStorage ($window, $q) {
+  'ngInject'
   return {
     set: function (key, value) {
       var deferred = $q.defer()

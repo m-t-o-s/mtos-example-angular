@@ -1,4 +1,5 @@
 function broadcastService ($rootScope) {
+  'ngInject'
   this.broadcast = function (message) {
     $rootScope.$broadcast(message)
   }

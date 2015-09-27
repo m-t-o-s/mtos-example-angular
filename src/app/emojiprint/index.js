@@ -1,6 +1,9 @@
 'use strict'
 
+import angular from 'angular'
+
 function emojiprint () {
+  'ngInject'
   return function (fingerprint) {
     // all hail http://www.windytan.com/2014/10/visualizing-hex-bytes-with-unicode-emoji.htmla
     //          https://gist.github.com/windytan/7910910
@@ -15,5 +18,5 @@ function emojiprint () {
   }
 }
 
-module.exports = window.angular.module('emojiprint', [])
-  .filter('emojiprint', emojiprint)
+module.exports = angular.module('emojiprint.filter', [])
+  .filter('emojiprint', emojiprint).name

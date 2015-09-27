@@ -1,4 +1,5 @@
 function keyService ($localStorage, $rootScope, $q, mtos, mtosBroadcastService) {
+  'ngInject'
   var service = {}
 
   service.loadServerKey = function () {
