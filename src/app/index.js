@@ -2,6 +2,7 @@
 
 import angular from 'angular'
 import uiRouter from 'angular-ui-router'
+import material from 'angular-material'
 
 import packageJSON from '../../package.json'
 import configuration from '../../config.json'
@@ -12,6 +13,7 @@ import emojiprint from './emojiprint'
 
 angular.module('mtosClient', [
   uiRouter,
+  material,
   require('./modules/localStorage.factory').name,
   require('./modules/localStorage-archive.service').name,
   require('./mtos').name,
