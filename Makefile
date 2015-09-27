@@ -42,7 +42,7 @@ watch: clean static css
 	$(NODEMON) --watch $(SOURCE_DIR) -e html --exec "make static" &
 	$(SASS) --watch --source-map-embed $(SOURCE_DIR)/scss/style.scss --output $(TARGET_DIR)/css &
 	$(WATCHIFY) --debug $(BROWSERIFY_OPTS) $(SOURCE_DIR)/app/index.js -o $(TARGET_DIR)/app/mtos-client-angular.js &
-	$(BROWSER_SYNC) start --files "$(TARGET_DIR)/**/*" --server $(TARGET_DIR)
+	$(BROWSER_SYNC) start --no-ghost-mode --files "$(TARGET_DIR)/**/*" --server $(TARGET_DIR)
 
 $(TARGET_DIR): lint clean static css
 	$(BROWSERIFY) $(BROWSERIFY_OPTS) $(SOURCE_DIR)/app/index.js | $(UGLIFY) -c > $(TARGET_DIR)/app/mtos-client-angular.js
