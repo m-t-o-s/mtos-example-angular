@@ -28,6 +28,6 @@ angular.module('mtosClient', [
     abastract: true,
     controller: 'appController',
     controllerAs: 'app',
-    templateUrl: 'js/common/app.template.html'
+    templateUrl: 'app/common/app.template.html'
   })
 })
