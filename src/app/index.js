@@ -1,25 +1,31 @@
 'use strict'
 
-var angular = require('angular')
+import angular from 'angular'
+import uiRouter from 'angular-ui-router'
+
+import packageJSON from '../../package.json'
+import configuration from '../../config.json'
+
+import AppController from './app.controller'
 
 angular.module('mtosClient', [
-  require('angular-ui-router'),
+  uiRouter,
   require('./modules/localStorage.factory').name,
   require('./modules/localStorage-archive.service').name,
-  require('./modules/mtos').name,
+  require('./mtos').name,
   require('./modules/emojiprint.filter').name,
   require('./debug').name
 ])
 
-.constant('version', require('../../package.json').version)
-.constant('configuration', require('../../config.json'))
+.constant('version', packageJSON.version)
+.constant('configuration', configuration)
 
 .run(function (configuration, mtosKeyService, mtos) {
   mtosKeyService.loadServerKey()
   mtosKeyService.loadUserKeys()
 })
 
-.controller('appController', require('./common/app.controller'))
+.controller('appController', AppController)
 
 .config(function ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/debug')
