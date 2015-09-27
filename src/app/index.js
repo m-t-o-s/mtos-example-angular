@@ -8,12 +8,14 @@ import configuration from '../../config.json'
 
 import AppController from './app.controller'
 
+import emojiprint from './emojiprint'
+
 angular.module('mtosClient', [
   uiRouter,
   require('./modules/localStorage.factory').name,
   require('./modules/localStorage-archive.service').name,
   require('./mtos').name,
-  require('./modules/emojiprint.filter').name,
+  emojiprint,
   require('./debug').name
 ])
 
