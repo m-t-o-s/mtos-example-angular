@@ -10,7 +10,7 @@ module.exports = window.angular.module('mtosDebug', [
       url: '^/debug',
       controller: 'debugController',
       controllerAs: 'db',
-      templateUrl: 'js/debug/debug.template.html'
+      templateUrl: 'app/debug/debug.template.html'
     })
   })
   .controller('debugController', require('./debug.controller'))
