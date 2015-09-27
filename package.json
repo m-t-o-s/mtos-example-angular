@@ -17,6 +17,7 @@
     "angular-ui-router": "^0.2.14",
     "browser-sync": "^2.9.3",
     "browserify": "^11.2.0",
+    "browserify-ngannotate": "^1.0.1",
     "es6ify": "^1.6.0",
     "jszip": "^2.5.0",
     "mtos": "git+https://git.diff.mx/mtos/mtos.git",

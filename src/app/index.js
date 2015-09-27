@@ -25,6 +25,7 @@ angular.module('mtosClient', [
 .constant('configuration', configuration)
 
 .run(function (configuration, mtosKeyService, mtos) {
+  'ngInject'
   mtosKeyService.loadServerKey()
   mtosKeyService.loadUserKeys()
 })
@@ -32,6 +33,7 @@ angular.module('mtosClient', [
 .controller('appController', AppController)
 
 .config(function ($stateProvider, $urlRouterProvider) {
+  'ngInject'
   $urlRouterProvider.otherwise('/debug')
   $stateProvider
   .state('default', {

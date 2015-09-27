@@ -3,6 +3,7 @@
 var JSZip = require('jszip')
 
 function archiveService ($window, $q) {
+  'ngInject'
   var service = {}
 
   service.exportData = function (object) {

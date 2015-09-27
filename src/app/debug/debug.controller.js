@@ -1,6 +1,7 @@
 'use strict'
 
 var debug = function ($scope, mtos, version, configuration, mtosBroadcastService, mtosKeyService, $localStorage, $localStorageArchive) {
+  'ngInject'
   window.db = this
 
   var self = this

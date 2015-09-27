@@ -1,11 +1,14 @@
 <!doctype html>
-<html lang="en" ng-app="mtosClient">
+<html lang="en" ng-app="mtosClient" ng-strict-di>
 <head>
   <meta charset="utf-8" />
   <title>mtos</title>
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,700'>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body ng-cloak>
+  <ui-view></ui-view>
   <script src="/forge/forge.min.js"></script>
   <script src="/app/mtos-client-angular.js"></script>
-</head>
-<body ui-view></body>
+</body>
 </html>
