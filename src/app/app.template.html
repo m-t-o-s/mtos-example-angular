@@ -1,11 +1,7 @@
-<ul class="navigation">
-  <li class="nav-item">
-    <a ui-sref="debug">debug</a>
-  </li>
-</ul>
+<md-toolbar>
+  <md-button ui-sref="debug">debug</md-button>
+</md-toolbar>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger"></label>
-
-<section class="site-wrap outer-container" ui-view>
-</section>
+<md-content display="column" layout-padding layout-margin>
+  <ui-view></ui-view>
+</md-content>

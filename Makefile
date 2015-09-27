@@ -18,18 +18,16 @@ build: $(TARGET_DIR)
 clean:
 	rm -rf $(TARGET_DIR)
 
-static: forge
+static: vendor
 	cp -r $(SOURCE_DIR)/* $(TARGET_DIR)
 
-forge:
+vendor:
 	mkdir -p $(TARGET_DIR)/forge
 	cp ./node_modules/mtos/node_modules/node-forge/js/forge.min.js $(TARGET_DIR)/forge
 	cp ./node_modules/mtos/node_modules/node-forge/js/prime.worker.js $(TARGET_DIR)/forge
 	cp ./node_modules/mtos/node_modules/node-forge/js/jsbn.js $(TARGET_DIR)/forge
-
-index:
-	mkdir -p $(TARGET_DIR)/app
-	cp ./$(SOURCE_DIR)/index.html $(TARGET_DIR)
+	mkdir -p $(TARGET_DIR)/css
+	cp ./node_modules/angular-material/angular-material.min.css $(TARGET_DIR)/css
 
 lint: node_modules
 	$(STANDARD)
@@ -39,7 +37,7 @@ css:
 	$(SASS) --omit-source-map-url --output-style compressed $(SOURCE_DIR)/scss/style.scss --output $(TARGET_DIR)/css
 
 watch: clean static css
-	$(NODEMON) --watch $(SOURCE_DIR)/index.html --exec "make index" &
+	$(NODEMON) --watch $(SOURCE_DIR) -e html --exec "make static" &
 	$(SASS) --watch --source-map-embed $(SOURCE_DIR)/scss/style.scss --output $(TARGET_DIR)/css &
 	$(WATCHIFY) --transform es6ify --transform browserify-ngannotate $(SOURCE_DIR)/app/index.js -o $(TARGET_DIR)/app/mtos-client-angular.js &
 	$(BROWSER_SYNC) start --files "$(TARGET_DIR)/**/*" --server $(TARGET_DIR)
